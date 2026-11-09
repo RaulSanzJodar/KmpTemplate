@@ -17,6 +17,7 @@ import rsanzjo.entreteclasytinta.template.domain.useCase.ProfileUseCase
 import rsanzjo.entreteclasytinta.template.domain.useCase.impl.AuthUseCaseImpl
 import rsanzjo.entreteclasytinta.template.domain.useCase.impl.ProfileUseCaseImpl
 import rsanzjo.entreteclasytinta.template.presentation.feature.auth.login.LoginViewModel
+import rsanzjo.entreteclasytinta.template.presentation.feature.main.home.HomeViewModel
 
 private val dataModule = module {
     single { SessionManager(storage = get()) }
@@ -34,6 +35,7 @@ private val domainModule = module {
 
 private val presentationModule = module {
     viewModelOf(::LoginViewModel)
+    viewModelOf(::HomeViewModel)
 }
 
 val appModules = listOf(platformModule, dataModule, domainModule, presentationModule)
