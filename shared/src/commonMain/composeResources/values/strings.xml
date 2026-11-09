@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Kmp Template</string>
+    <string name="auth_too_many_requests">Demasiados intentos fallidos. Inténtalo más tarde.</string>
+    <string name="error_unknown">Se ha producido un error inesperado.</string>
+    <string name="network_exception">No hay conexión a internet. Inténtalo de nuevo más tarde.</string>
+    <string name="cancellation_exception">La operación fue cancelada.</string>
+    <string name="error_http_format">Error HTTP %1$d</string>
+    <string name="error_session_expired">Sesión caducada. Por favor, inicia sesión de nuevo.</string>
+    <string name="loading">Cargando</string>
+</resources>
