@@ -46,11 +46,13 @@ DISPLAY_NAME="$(echo "$NAME" | sed -E 's/([a-z0-9])([A-Z])/\1 \2/g')"
 ESCAPED_OLD="${OLD_PACKAGE//./\\.}"
 find "$DEST" -type f ! -name '*.jar' ! -name '*.png' ! -name '*.webp' ! -name '*.jpg' \
     ! -name '*.ttf' ! -name '*.otf' ! -name '*.ico' -print0 |
-    xargs -0 sed -i \
+    xargs -0 sed -i.bak \
         -e "s/$ESCAPED_OLD/$PACKAGE/g" \
         -e "s/TemplateApp/${NAME}App/g" \
         -e "s/Kmp Template/$DISPLAY_NAME/g" \
         -e "s/KmpTemplate/$NAME/g"
+# `-i.bak` es la forma que aceptan tanto GNU sed como BSD sed (macOS).
+find "$DEST" -type f -name '*.bak' -delete
 
 find "$DEST" -type f -name 'TemplateApp.kt' -exec sh -c 'mv "$1" "$(dirname "$1")/'"$NAME"'App.kt"' _ {} \;
 

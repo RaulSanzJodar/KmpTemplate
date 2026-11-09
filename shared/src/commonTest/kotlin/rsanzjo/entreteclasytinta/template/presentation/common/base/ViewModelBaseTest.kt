@@ -66,4 +66,21 @@ class ViewModelBaseTest {
 
         assertEquals(Res.string.network_exception, vm.baseUiState.value.errorMessageRes)
     }
+
+    @Test
+    fun errorInOneOverlappingLoad_keepsLoadingWhileAnotherIsPending() {
+        val vm = TestViewModel()
+        val failing = CompletableDeferred<Unit>()
+        val pending = CompletableDeferred<Unit>()
+
+        vm.run { failing.await(); throw DomainError.Network() }
+        vm.run { pending.await() }
+
+        failing.complete(Unit)
+        assertEquals(Res.string.network_exception, vm.baseUiState.value.errorMessageRes)
+        assertTrue(vm.baseUiState.value.isLoading)
+
+        pending.complete(Unit)
+        assertFalse(vm.baseUiState.value.isLoading)
+    }
 }

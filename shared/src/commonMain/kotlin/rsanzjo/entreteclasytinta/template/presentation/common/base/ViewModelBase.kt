@@ -97,7 +97,8 @@ abstract class ViewModelBase<S, A, E>(initialState: S) : ViewModel() {
     }
 
     fun manageError(error: Throwable) {
-        _baseUiState.update { error.toErrorState() }
+        // El error no debe apagar el loading mientras haya otras operaciones en curso.
+        _baseUiState.update { error.toErrorState().copy(isLoading = pendingLoads.value > 0) }
     }
 }
 
