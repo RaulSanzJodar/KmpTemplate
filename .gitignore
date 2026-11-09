@@ -1,0 +1,36 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+/.idea/copilot.data.migration.ask.xml
+/.idea/copilot.data.migration.ask2agent.xml
+/.kotlin/errors/errors-1757849639027.log
+/.kotlin/errors/errors-1768760482836.log
+
+# Build outputs of every module
+**/build/
+
+# Kotlin
+.kotlin/
+
+# Xcode
+xcuserdata/
+*.xcworkspace/xcuserdata/
+iosApp/Pods/
+iosApp/build/
+DerivedData/
+
+# Especificación OpenAPI de la API (no se publica)
+openapi.json
+.superpowers/
