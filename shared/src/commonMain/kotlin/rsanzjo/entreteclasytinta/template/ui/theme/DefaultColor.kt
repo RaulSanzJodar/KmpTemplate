@@ -154,211 +154,27 @@ val darkScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDark,
 )
 
-/** Colores de una tarjeta de equipo: barra lateral, fondo, acento y texto sobre el fondo. */
-@Immutable
-data class EquipmentCardPalette(
-    val sidebarBg: Color,
-    val sidebarText: Color,
-    val sidebarValue: Color,
-    val mainBg: Color,
-    val accent: Color,
-    val content: Color,
-    val notProficient: Color
-)
-
-/** Color de cada escuela de magia, ya ajustado para leerse sobre el fondo del tema. */
-@Immutable
-data class SpellSchoolPalette(
-    val evocation: Color,
-    val abjuration: Color,
-    val conjuration: Color,
-    val transmutation: Color,
-    val necromancy: Color,
-    val illusion: Color,
-    val divination: Color,
-    val enchantment: Color
-)
-
+/** Colores propios de la app que no existen en el esquema de Material (tarjetas, shimmer...). */
 @Immutable
 data class DefaultColors(
-    val statHitPoints: Color,
-    val statInitiative: Color,
-    val statSpeed: Color,
-    val statArmorClass: Color,
-    val statProficiencyBonus: Color,
     val cardBackground: Color,
     val cardBorder: Color,
-    val favoriteGold: Color,
-    val favoriteInactive: Color,
     val shimmerBase: Color,
-    val shimmerHighlight: Color,
-    /** Color de una moneda cuyo API no trae color. */
-    val coinFallback: Color,
-
-    // Equipment Palette
-    val equipmentWeapon: EquipmentCardPalette,
-    val equipmentArmor: EquipmentCardPalette,
-    val equipmentGeneral: EquipmentCardPalette,
-    /** Bonificador de daño de un rasgo activo, sobre la tarjeta de arma. */
-    val equipmentTraitBonus: Color,
-    /** Icono sobre el acento de sección (botones flotantes de equipo). */
-    val equipmentOnAccent: Color,
-
-    val spellSchools: SpellSchoolPalette,
-    val spellSchoolFallback: Color,
-
-    // Section Colors
-    val equipmentArsenalAccent: Color,
-    val equipmentArsenalContainer: Color,
-    val equipmentDefenseAccent: Color,
-    val equipmentDefenseContainer: Color,
-    val equipmentTreasureAccent: Color,
-    val equipmentTreasureContainer: Color,
-    val equipmentLogisticsAccent: Color,
-    val equipmentLogisticsContainer: Color,
-
-    // Background Tab Colors
-    val backgroundHeaderIcon: Color,
-    val backgroundAlignmentTagBg: Color,
-    val backgroundAlignmentTagContent: Color,
-    val backgroundDeityTagBg: Color,
-    val backgroundDeityTagContent: Color,
-    val backgroundPersonalityAccent: Color,
-    val backgroundIdealsAccent: Color,
-    val backgroundBondsAccent: Color,
-    val backgroundFlawsAccent: Color
+    val shimmerHighlight: Color
 )
 
-val hitPointsLight = Color(0xFFC75B5B)
-val initiativeLight = Color(0xFFA88A00)
-val speedLight = Color(0xFF2E9C6A)
-val armorClassLight = Color(0xFF2F86B5)
-val proficiencyBonusLight = Color(0xFF8E63BD)
-val cardBackgroundLight = Color(0xFFFFFFFF)
-
-val hitPointsDark = Color(0xFFC97A7A)
-val initiativeDark = Color(0xFFC9B86E)
-val speedDark = Color(0xFF7FB59A)
-val armorClassDark = Color(0xFF7AA7C2)
-val proficiencyBonusDark = Color(0xFF9C82B8)
-val cardBackgroundDark = Color(0xFF211E1D)
-
 val LightDefaultColors = DefaultColors(
-    statHitPoints = hitPointsLight,
-    statInitiative = initiativeLight,
-    statSpeed = speedLight,
-    statArmorClass = armorClassLight,
-    statProficiencyBonus = proficiencyBonusLight,
-    cardBackground = cardBackgroundLight,
-    
+    cardBackground = Color(0xFFFFFFFF),
     cardBorder = Color(0x1F000000),
-    favoriteGold = Color(0xFFFFB300),
-    favoriteInactive = Color(0x809E9E9E),
     shimmerBase = Color(0xFFB8B5B5),
-    shimmerHighlight = Color(0xFF8F8B8B),
-    coinFallback = Color(0xFFCCCCCC),
-
-    equipmentWeapon = EquipmentCardPalette(
-        sidebarBg = Color(0xFF2D323E), sidebarText = Color(0xFFB0B4BC), sidebarValue = Color(0xFFFFFFFF),
-        mainBg = Color(0xFF4B515D), accent = Color(0xFFFF8A80), content = Color(0xFFFFFFFF), notProficient = Color(0xFFEF9A9A)
-    ),
-    equipmentArmor = EquipmentCardPalette(
-        sidebarBg = Color(0xFFB3BAE0), sidebarText = Color(0xFF303F9F), sidebarValue = Color(0xFF1A237E),
-        mainBg = Color(0xFFDDE1F3), accent = Color(0xFF303F9F), content = Color(0xFF263238), notProficient = Color(0xFFC62828)
-    ),
-    equipmentGeneral = EquipmentCardPalette(
-        sidebarBg = Color(0xFFA0D3CE), sidebarText = Color(0xFF005B50), sidebarValue = Color(0xFF00382F),
-        mainBg = Color(0xFFD3ECEA), accent = Color(0xFF00695C), content = Color(0xFF263238), notProficient = Color(0xFFC62828)
-    ),
-    equipmentTraitBonus = Color(0xFFFFB74D),
-    equipmentOnAccent = Color(0xFFFFFFFF),
-
-    spellSchools = SpellSchoolPalette(
-        evocation = Color(0xFF942522), abjuration = Color(0xFF135894), conjuration = Color(0xFF5C176E),
-        transmutation = Color(0xFFA55C00), necromancy = Color(0xFF36474F), illusion = Color(0xFF3D2273),
-        divination = Color(0xFF006F7D), enchantment = Color(0xFF8C113E)
-    ),
-    spellSchoolFallback = Color(0xFF6750A4),
-
-    // Section Colors
-    equipmentArsenalAccent = Color(0xFFD32F2F),
-    equipmentArsenalContainer = Color(0xFFFEEBEE),
-    equipmentDefenseAccent = Color(0xFF3F51B5),
-    equipmentDefenseContainer = Color(0xFFE8EAF6),
-    equipmentTreasureAccent = Color(0xFFE65100),
-    equipmentTreasureContainer = Color(0xFFFFF8E1),
-    equipmentLogisticsAccent = Color(0xFF2E7D32),
-    equipmentLogisticsContainer = Color(0xFFE8F5E9),
-
-    // Background Tab Colors
-    backgroundHeaderIcon = Color(0xFFB8631F),
-    backgroundAlignmentTagBg = Color(0xFFE8EAF6),
-    backgroundAlignmentTagContent = Color(0xFF3F51B5),
-    backgroundDeityTagBg = Color(0xFFFFF8E1),
-    backgroundDeityTagContent = Color(0xFFA85400),
-    backgroundPersonalityAccent = Color(0xFF7E57C2),
-    backgroundIdealsAccent = Color(0xFFA67C00),
-    backgroundBondsAccent = Color(0xFF1E88E5),
-    backgroundFlawsAccent = Color(0xFFE53935)
+    shimmerHighlight = Color(0xFF8F8B8B)
 )
 
 val DarkDefaultColors = DefaultColors(
-    statHitPoints = hitPointsDark,
-    statInitiative = initiativeDark,
-    statSpeed = speedDark,
-    statArmorClass = armorClassDark,
-    statProficiencyBonus = proficiencyBonusDark,
-    cardBackground = cardBackgroundDark,
-
+    cardBackground = Color(0xFF211E1D),
     cardBorder = Color(0x29FFFFFF),
-    favoriteGold = Color(0xFFFFC107),
-    favoriteInactive = Color(0x809E9E9E),
     shimmerBase = Color(0xFF3B3736),
-    shimmerHighlight = Color(0xFF2C2827),
-    coinFallback = Color(0xFF8A8280),
-
-    equipmentWeapon = EquipmentCardPalette(
-        sidebarBg = Color(0xFF181B22), sidebarText = Color(0xFFB4B9C3), sidebarValue = Color(0xFFFFFFFF),
-        mainBg = Color(0xFF464D5C), accent = Color(0xFFFF9E95), content = Color(0xFFFFFFFF), notProficient = Color(0xFFFFAB9F)
-    ),
-    equipmentArmor = EquipmentCardPalette(
-        sidebarBg = Color(0xFF181C30), sidebarText = Color(0xFFB3BDF2), sidebarValue = Color(0xFFE6E9FF),
-        mainBg = Color(0xFF38406B), accent = Color(0xFFB0B8F8), content = Color(0xFFF0F1FA), notProficient = Color(0xFFFFAB9F)
-    ),
-    equipmentGeneral = EquipmentCardPalette(
-        sidebarBg = Color(0xFF112826), sidebarText = Color(0xFF8FD6CF), sidebarValue = Color(0xFFD2F7F2),
-        mainBg = Color(0xFF2A524F), accent = Color(0xFF6BCBC1), content = Color(0xFFEAF7F6), notProficient = Color(0xFFFFAB9F)
-    ),
-    equipmentTraitBonus = Color(0xFFFFB74D),
-    equipmentOnAccent = Color(0xFF1F1B1A),
-
-    spellSchools = SpellSchoolPalette(
-        evocation = Color(0xFFEF8885), abjuration = Color(0xFF78B7EF), conjuration = Color(0xFFBB7BCC),
-        transmutation = Color(0xFFFFBB66), necromancy = Color(0xFF98A8AF), illusion = Color(0xFF9E85D0),
-        divination = Color(0xFF66CDD9), enchantment = Color(0xFFE7769F)
-    ),
-    spellSchoolFallback = Color(0xFFD0BCFF),
-
-    // Section Colors
-    equipmentArsenalAccent = Color(0xFFEF5350),
-    equipmentArsenalContainer = Color(0xFF3B2422),
-    equipmentDefenseAccent = Color(0xFF7986CB),
-    equipmentDefenseContainer = Color(0xFF242938),
-    equipmentTreasureAccent = Color(0xFFFF8F00),
-    equipmentTreasureContainer = Color(0xFF3A2D1A),
-    equipmentLogisticsAccent = Color(0xFF66BB6A),
-    equipmentLogisticsContainer = Color(0xFF22331F),
-
-    // Background Tab Colors (Keeping mostly same as light for now per style, but containers could be darkened)
-    backgroundHeaderIcon = Color(0xFFD4813B),
-    backgroundAlignmentTagBg = Color(0xFF3F51B5).copy(alpha = 0.2f), // Darker bg for tag
-    backgroundAlignmentTagContent = Color(0xFF9FA8DA), // Lighter text
-    backgroundDeityTagBg = Color(0xFFFF8F00).copy(alpha = 0.2f),
-    backgroundDeityTagContent = Color(0xFFFFCC80),
-    backgroundPersonalityAccent = Color(0xFFB39DDB),
-    backgroundIdealsAccent = Color(0xFFFBC02D),
-    backgroundBondsAccent = Color(0xFF42A5F5),
-    backgroundFlawsAccent = Color(0xFFEF5350)
+    shimmerHighlight = Color(0xFF2C2827)
 )
 
 val LocalDefaultColors = staticCompositionLocalOf { LightDefaultColors }
