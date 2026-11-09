@@ -7,4 +7,9 @@
     <string name="error_http_format">Error HTTP %1$d</string>
     <string name="error_session_expired">Sesión caducada. Por favor, inicia sesión de nuevo.</string>
     <string name="loading">Cargando</string>
+    <string name="auth_invalid_credential">Las credenciales no son válidas o han caducado.</string>
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_button">Entrar</string>
 </resources>
