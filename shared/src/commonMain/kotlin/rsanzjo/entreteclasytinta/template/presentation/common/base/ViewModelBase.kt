@@ -116,12 +116,13 @@ fun Throwable.toErrorState(): BaseUiState = when {
     else -> BaseUiState(errorMessageRes = Res.string.error_unknown)
 }
 
-/**
- * Texto de error para [this]. [unauthorized] permite cambiar el mensaje del 401: es "sesión
- * caducada" en la app, pero "credenciales incorrectas" al iniciar sesión.
- */
-fun Throwable.toErrorMessageRes(unauthorized: StringResource = Res.string.error_session_expired): StringResource = when (this) {
-    is DomainError.Unauthorized -> unauthorized
+/** Texto de error para [this]. */
+fun Throwable.toErrorMessageRes(): StringResource = when (this) {
+    is DomainError.Unauthorized -> Res.string.error_session_expired
+    is DomainError.InvalidCredentials -> Res.string.auth_invalid_credential
+    is DomainError.EmailNotConfirmed -> Res.string.auth_email_not_confirmed
+    is DomainError.UserAlreadyExists -> Res.string.auth_user_already_exists
+    is DomainError.WeakPassword -> Res.string.auth_weak_password
     is DomainError.TooManyRequests -> Res.string.auth_too_many_requests
     is DomainError.Network -> Res.string.network_exception
     is CancellationException -> Res.string.cancellation_exception

@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -73,9 +74,15 @@ kotlin {
 
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+
+            implementation(project.dependencies.platform(libs.supabase.bom))
+            implementation(libs.supabase.auth)
+            implementation(libs.supabase.postgrest)
         }
 
         androidMain.dependencies {
+            // Login nativo de Google (Credential Manager). En iOS exigiría enlazar el SDK GoogleSignIn.
+            implementation(libs.supabase.compose.auth)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.androidx.security.crypto)
             implementation(libs.koin.android)
@@ -85,6 +92,50 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
     }
+}
+
+// Configuración por entorno: variable de entorno > local.properties > valor de relleno (para que
+// CI y un clon recién hecho compilen sin secretos). Se genera como `AppConfig` en commonMain.
+val localProperties = Properties().apply {
+    rootProject.file("local.properties").takeIf { it.exists() }?.inputStream()?.use { load(it) }
+}
+
+fun configValue(name: String, default: String): String =
+    providers.environmentVariable(name).orNull ?: localProperties.getProperty(name) ?: default
+
+val generateAppConfig by tasks.registering {
+    val values = mapOf(
+        "SUPABASE_URL" to configValue("SUPABASE_URL", "https://example.supabase.co"),
+        "SUPABASE_PUBLISHABLE_KEY" to configValue("SUPABASE_PUBLISHABLE_KEY", "publishable-key"),
+        "GOOGLE_WEB_CLIENT_ID" to configValue("GOOGLE_WEB_CLIENT_ID", "")
+    )
+    val outputDir = layout.buildDirectory.dir("generated/appConfig/commonMain/kotlin")
+    inputs.properties(values)
+    outputs.dir(outputDir)
+    // Con puntos (y no como ruta) para que scripts/new-project lo renombre junto al resto del paquete.
+    val configPackage = "rsanzjo.entreteclasytinta.template.config"
+    inputs.property("configPackage", configPackage)
+    doLast {
+        val file = outputDir.get().file("${configPackage.replace('.', '/')}/AppConfig.kt").asFile
+        file.parentFile.mkdirs()
+        file.writeText(
+            buildString {
+                appendLine("package $configPackage")
+                appendLine()
+                appendLine("/** Generado por `generateAppConfig` (shared/build.gradle.kts). No editar. */")
+                appendLine("object AppConfig {")
+                values.forEach { (name, value) ->
+                    val escaped = value.replace("\\", "\\\\").replace("\"", "\\\"").replace("$", "\\$")
+                    appendLine("    const val $name = \"$escaped\"")
+                }
+                appendLine("}")
+            }
+        )
+    }
+}
+
+kotlin.sourceSets.commonMain {
+    kotlin.srcDir(generateAppConfig)
 }
 
 compose.resources {

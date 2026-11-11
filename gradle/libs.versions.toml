@@ -3,15 +3,17 @@ agp = "9.0.0"
 kotlin = "2.3.21"
 composeMultiplatform = "1.10.3"
 composeIcons = "1.7.3"
-jetbrainsLifecycle = "2.9.4"
+jetbrainsLifecycle = "2.9.6"
 jetbrainsNavigation = "2.9.1"
 activityCompose = "1.11.0"
 coroutines = "1.10.2"
-serialization = "1.9.0"
+serialization = "1.11.0"
 koin = "4.1.1"
-ktor = "3.3.0"
+ktor = "3.4.3"
 coil = "3.3.0"
 securityCrypto = "1.1.0-alpha06"
+# 3.6.0 es la última compilada con Kotlin 2.3.x; las siguientes exigen Kotlin 2.4.
+supabase = "3.6.0"
 
 [libraries]
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
@@ -42,6 +44,11 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
+supabase-bom = { module = "io.github.jan-tennert.supabase:bom", version.ref = "supabase" }
+supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt" }
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
+supabase-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth" }
 
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 

@@ -7,26 +7,21 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import rsanzjo.entreteclasytinta.template.domain.entity.SocialProvider
 import rsanzjo.entreteclasytinta.template.domain.error.DomainError
-import rsanzjo.entreteclasytinta.template.presentation.common.navigation.NavigationInclusive
+import rsanzjo.entreteclasytinta.template.presentation.common.navigation.Navigation
 import rsanzjo.entreteclasytinta.template.presentation.common.navigation.auth.AuthDestination
-import rsanzjo.entreteclasytinta.template.presentation.common.navigation.main.MainDestination
 import rsanzjo.entreteclasytinta.template.resources.Res
 import rsanzjo.entreteclasytinta.template.resources.auth_invalid_credential
+import rsanzjo.entreteclasytinta.template.resources.error_unknown
 import rsanzjo.entreteclasytinta.template.testing.FakeAuthUseCase
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginViewModelTest {
-
-    private val toHome = NavigationInclusive(
-        destination = MainDestination.HomeScreen,
-        popUpTo = AuthDestination.LoginScreen
-    )
 
     @BeforeTest
     fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -40,32 +35,17 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun onStart_whenLoggedIn_navigatesToHome() = runTest {
-        val vm = LoginViewModel(FakeAuthUseCase(loggedIn = true))
-        vm.manageAction(LoginAction.OnStart)
-        assertEquals(toHome, vm.navHostEvent.first())
-    }
-
-    @Test
-    fun onStart_whenNotLoggedIn_showsForm() {
-        val vm = LoginViewModel(FakeAuthUseCase(loggedIn = false))
-        vm.manageAction(LoginAction.OnStart)
-        assertTrue(vm.uiState.value.isFormVisible)
-    }
-
-    @Test
-    fun login_success_callsUseCaseAndNavigates() = runTest {
+    fun login_callsUseCase() {
         val auth = FakeAuthUseCase()
         val vm = LoginViewModel(auth)
         vm.fill()
         vm.manageAction(LoginAction.OnLoginClick)
         assertEquals(1, auth.loginCalls)
-        assertEquals(toHome, vm.navHostEvent.first())
     }
 
     @Test
     fun login_withInvalidCredentials_sendsInvalidCredentialMessage() = runTest {
-        val vm = LoginViewModel(FakeAuthUseCase(loginError = DomainError.Unauthorized()))
+        val vm = LoginViewModel(FakeAuthUseCase(error = DomainError.InvalidCredentials()))
         vm.fill()
         vm.manageAction(LoginAction.OnLoginClick)
         assertEquals(LoginEffect.ShowMessage(Res.string.auth_invalid_credential), vm.effects.first())
@@ -82,5 +62,29 @@ class LoginViewModelTest {
         vm.manageAction(LoginAction.OnLoginClick)
 
         assertEquals(0, auth.loginCalls)
+    }
+
+    @Test
+    fun socialClick_startsLoginWithThatProvider() {
+        val auth = FakeAuthUseCase()
+        val vm = LoginViewModel(auth)
+        vm.manageAction(LoginAction.OnSocialClick(SocialProvider.Apple))
+        assertEquals(listOf(SocialProvider.Apple), auth.socialLogins)
+    }
+
+    @Test
+    fun nativeSignInError_sendsGenericMessage() = runTest {
+        val vm = LoginViewModel(FakeAuthUseCase())
+        vm.manageAction(LoginAction.OnNativeSignInError)
+        assertEquals(LoginEffect.ShowMessage(Res.string.error_unknown), vm.effects.first())
+    }
+
+    @Test
+    fun registerAndForgotPasswordClicks_navigateToTheirScreens() = runTest {
+        val vm = LoginViewModel(FakeAuthUseCase())
+        vm.manageAction(LoginAction.OnRegisterClick)
+        assertEquals(Navigation(AuthDestination.RegisterScreen), vm.navHostEvent.first())
+        vm.manageAction(LoginAction.OnForgotPasswordClick)
+        assertEquals(Navigation(AuthDestination.ForgotPasswordScreen), vm.navHostEvent.first())
     }
 }

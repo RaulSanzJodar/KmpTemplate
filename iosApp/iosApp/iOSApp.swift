@@ -12,6 +12,11 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                // Enlaces de autenticación (confirmar correo, recuperar contraseña, login social):
+                // llegan con el esquema de URL declarado en Info.plist (CFBundleURLTypes).
+                .onOpenURL { url in
+                    MainViewControllerKt.onOpenUrl(url: url)
+                }
         }
     }
 }

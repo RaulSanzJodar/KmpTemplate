@@ -1,0 +1,14 @@
+# Copia este fichero como local.properties (no se versiona) y rellena los valores.
+# También pueden darse como variables de entorno, que tienen prioridad (útil en CI).
+
+# Ruta del SDK de Android (Android Studio la escribe sola).
+# sdk.dir=C\:\\Users\\<usuario>\\AppData\\Local\\Android\\Sdk
+
+# Supabase > Project Settings > API.
+SUPABASE_URL=https://<proyecto>.supabase.co
+# Clave publicable (o la antigua "anon"). Nunca la service_role: esta va dentro de la app.
+SUPABASE_PUBLISHABLE_KEY=
+
+# Client ID de tipo "Web application" de Google Cloud, el mismo que se configura en
+# Supabase > Authentication > Providers > Google. Vacío = Google por navegador (OAuth).
+GOOGLE_WEB_CLIENT_ID=

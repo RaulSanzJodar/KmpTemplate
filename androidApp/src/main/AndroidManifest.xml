@@ -18,11 +18,25 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.KmpTemplate">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Enlaces de autenticación de Supabase (confirmar correo, recuperar contraseña, login
+                 social). Debe coincidir con AUTH_DEEP_LINK_SCHEME/HOST de SupabaseClientFactory. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="auth"
+                    android:scheme="rsanzjo.entreteclasytinta.template" />
             </intent-filter>
         </activity>
     </application>

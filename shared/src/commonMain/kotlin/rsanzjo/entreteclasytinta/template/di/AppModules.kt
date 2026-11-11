@@ -5,9 +5,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import rsanzjo.entreteclasytinta.template.common.platform.platformModule
-import rsanzjo.entreteclasytinta.template.data.datasource.SessionManager
-import rsanzjo.entreteclasytinta.template.data.datasource.api.AppApi
-import rsanzjo.entreteclasytinta.template.data.datasource.api.client.createHttpClient
+import rsanzjo.entreteclasytinta.template.data.datasource.supabase.createAppSupabaseClient
 import rsanzjo.entreteclasytinta.template.data.repository.impl.AuthRepositoryImpl
 import rsanzjo.entreteclasytinta.template.data.repository.impl.ProfileRepositoryImpl
 import rsanzjo.entreteclasytinta.template.domain.repository.AuthRepository
@@ -16,16 +14,19 @@ import rsanzjo.entreteclasytinta.template.domain.useCase.AuthUseCase
 import rsanzjo.entreteclasytinta.template.domain.useCase.ProfileUseCase
 import rsanzjo.entreteclasytinta.template.domain.useCase.impl.AuthUseCaseImpl
 import rsanzjo.entreteclasytinta.template.domain.useCase.impl.ProfileUseCaseImpl
+import rsanzjo.entreteclasytinta.template.presentation.AppViewModel
+import rsanzjo.entreteclasytinta.template.presentation.feature.auth.forgotpassword.ForgotPasswordViewModel
 import rsanzjo.entreteclasytinta.template.presentation.feature.auth.login.LoginViewModel
+import rsanzjo.entreteclasytinta.template.presentation.feature.auth.newpassword.NewPasswordViewModel
+import rsanzjo.entreteclasytinta.template.presentation.feature.auth.register.RegisterViewModel
 import rsanzjo.entreteclasytinta.template.presentation.feature.main.home.HomeViewModel
 
 private val dataModule = module {
-    single { SessionManager(storage = get()) }
-    single { createHttpClient(sessionManager = get()) }
-    single { AppApi(client = get()) }
+    single { createAppSupabaseClient(storage = get()) }
 
-    factory<AuthRepository> { AuthRepositoryImpl(api = get(), sessionManager = get()) }
-    factory<ProfileRepository> { ProfileRepositoryImpl(api = get()) }
+    // `single`: guarda estado (si el cierre de sesión lo pidió el usuario) entre llamadas.
+    single<AuthRepository> { AuthRepositoryImpl(supabase = get()) }
+    factory<ProfileRepository> { ProfileRepositoryImpl(supabase = get()) }
 }
 
 private val domainModule = module {
@@ -34,7 +35,11 @@ private val domainModule = module {
 }
 
 private val presentationModule = module {
+    viewModelOf(::AppViewModel)
     viewModelOf(::LoginViewModel)
+    viewModelOf(::RegisterViewModel)
+    viewModelOf(::ForgotPasswordViewModel)
+    viewModelOf(::NewPasswordViewModel)
     viewModelOf(::HomeViewModel)
 }
 
