@@ -48,6 +48,13 @@ try {
     Check 'scripts excluded' (-not (Test-Path (Join-Path $ok 'scripts')))
     Check 'docs excluded' (-not (Test-Path (Join-Path $ok 'docs')))
     Check 'application class renamed' (Test-Path (Join-Path $ok 'androidApp/src/main/kotlin/com/ejemplo/miapp/MiAppApp.kt'))
+    Check 'CI workflow copied' (Test-Path (Join-Path $ok '.github/workflows/ci.yml'))
+    Check 'template-only workflow excluded' (-not (Test-Path (Join-Path $ok '.github/workflows/template.yml')))
+    Check 'Supabase migrations copied' (Test-Path (Join-Path $ok 'supabase/migrations/0001_profiles.sql'))
+    Check 'local.properties example copied' (Test-Path (Join-Path $ok 'local.properties.example'))
+    Check 'local.properties not copied' (-not (Test-Path (Join-Path $ok 'local.properties')))
+    $manifest = Get-Content (Join-Path $ok 'androidApp/src/main/AndroidManifest.xml') -Raw
+    Check 'deep link scheme renamed' ($manifest -match 'android:scheme="com\.ejemplo\.miapp"')
 }
 finally {
     Remove-Item $work -Recurse -Force -ErrorAction SilentlyContinue

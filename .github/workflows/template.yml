@@ -1,0 +1,27 @@
+# Solo de la plantilla: prueba los scripts que generan proyectos nuevos. `new-project` no copia
+# este fichero a los proyectos generados.
+name: Template scripts
+
+on:
+  push:
+    branches: [main]
+    paths: ['scripts/**', '.github/workflows/template.yml']
+  pull_request:
+    paths: ['scripts/**', '.github/workflows/template.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  new-project:
+    name: Probar new-project
+    # Windows: new-project.ps1 copia con robocopy.
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probar new-project.ps1
+        shell: pwsh
+        run: ./scripts/test-new-project.ps1

@@ -1,25 +1,20 @@
-*.iml
+# Gradle y builds de cada módulo
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
+**/build/
 /captures
 .externalNativeBuild
 .cxx
-local.properties
-/.idea/copilot.data.migration.ask.xml
-/.idea/copilot.data.migration.ask2agent.xml
-/.kotlin/errors/errors-1757849639027.log
-/.kotlin/errors/errors-1768760482836.log
 
-# Build outputs of every module
-**/build/
+# Configuración local y secretos (ver local.properties.example y keystore.properties.example)
+local.properties
+keystore.properties
+*.jks
+*.keystore
+
+# IDE
+.idea/
+*.iml
+.DS_Store
 
 # Kotlin
 .kotlin/
@@ -31,6 +26,6 @@ iosApp/Pods/
 iosApp/build/
 DerivedData/
 
-# Especificación OpenAPI de la API (no se publica)
-openapi.json
+# Herramientas de asistencia
 .superpowers/
+.codegraph/

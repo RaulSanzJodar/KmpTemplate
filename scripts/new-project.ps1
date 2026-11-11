@@ -52,7 +52,7 @@ if ($Destination.StartsWith($templateRoot, [StringComparison]::OrdinalIgnoreCase
 New-Item -ItemType Directory -Path $Destination | Out-Null
 & robocopy $templateRoot $Destination /E /NFL /NDL /NJH /NJS /NP `
     /XD .git build .gradle .idea .kotlin .superpowers .codegraph scripts docs `
-    /XF local.properties | Out-Null
+    /XF local.properties keystore.properties *.jks template.yml | Out-Null
 if ($LASTEXITCODE -ge 8) { Fail "robocopy falló con el código $LASTEXITCODE." }
 
 # --- 2. Mueve los directorios del paquete en cada raíz de código (la que contiene 'rsanzjo'). ---

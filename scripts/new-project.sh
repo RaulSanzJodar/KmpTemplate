@@ -29,7 +29,8 @@ case "$DEST/" in "$TEMPLATE_ROOT"/*) rmdir "$DEST"; fail "El destino no puede es
 # --- 1. Copia, sin artefactos de build ni material de la plantilla. ---
 (cd "$TEMPLATE_ROOT" && tar --exclude=.git --exclude=build --exclude=.gradle --exclude=.idea \
     --exclude=.kotlin --exclude=.superpowers --exclude=.codegraph --exclude=./scripts --exclude=./docs \
-    --exclude=local.properties -cf - .) | (cd "$DEST" && tar -xf -)
+    --exclude=local.properties --exclude=keystore.properties --exclude='*.jks' \
+    --exclude=./.github/workflows/template.yml -cf - .) | (cd "$DEST" && tar -xf -)
 
 # --- 2. Mueve los directorios del paquete en cada raíz de código (la que contiene 'rsanzjo'). ---
 PACKAGE_PATH="${PACKAGE//./\/}"
