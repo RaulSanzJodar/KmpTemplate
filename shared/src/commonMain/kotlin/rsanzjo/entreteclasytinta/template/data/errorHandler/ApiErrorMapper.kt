@@ -43,8 +43,11 @@ private fun AuthRestException.toAuthDomainError(): DomainError = when (errorCode
     else -> httpDomainError(statusCode, this)
 }
 
+private const val HTTP_UNAUTHORIZED = 401
+private const val HTTP_TOO_MANY_REQUESTS = 429
+
 private fun httpDomainError(status: Int, cause: Throwable): DomainError = when (status) {
-    401 -> DomainError.Unauthorized(cause)
-    429 -> DomainError.TooManyRequests(cause)
+    HTTP_UNAUTHORIZED -> DomainError.Unauthorized(cause)
+    HTTP_TOO_MANY_REQUESTS -> DomainError.TooManyRequests(cause)
     else -> DomainError.Http(status, cause)
 }

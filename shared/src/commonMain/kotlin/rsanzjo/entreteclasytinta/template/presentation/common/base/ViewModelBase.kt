@@ -63,7 +63,7 @@ abstract class ViewModelBase<S, A, E>(initialState: S) : ViewModel() {
         block: suspend CoroutineScope.() -> Unit
     ) = viewModelScope.launch(
         CoroutineExceptionHandler { _, throwable ->
-            // TODO: Firebase.crashlytics.recordException(throwable)
+            // Punto único para registrar errores no controlados (Crashlytics, Sentry...) si el proyecto lo usa.
             onError(throwable)
         },
         block = block

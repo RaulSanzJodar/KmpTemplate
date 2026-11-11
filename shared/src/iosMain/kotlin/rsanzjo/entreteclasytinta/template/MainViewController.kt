@@ -12,4 +12,6 @@ fun initKoinIos() = initKoin()
 /** Se llama desde `.onOpenURL` cuando la app se abre con su esquema de URL (enlaces de autenticación). */
 fun onOpenUrl(url: NSURL) = handleAuthDeepLink(url)
 
+// Fábrica con nombre de tipo, como la genera el asistente de KMP y la espera `ContentView.swift`.
+@Suppress("FunctionName")
 fun MainViewController(): UIViewController = ComposeUIViewController { App() }

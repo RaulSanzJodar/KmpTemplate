@@ -54,8 +54,9 @@ class AuthRepositoryImplTest {
 
     @Test
     fun signUp_whenEmailMustBeConfirmed_returnsFalse() = runTest {
+        val identity = """{"id":"i","identity_data":{},"user_id":"user-1","provider":"email"}"""
         val pendingUser =
-            """{"id":"user-1","aud":"authenticated","email":"ada@example.com","identities":[{"id":"i","identity_data":{},"user_id":"user-1","provider":"email"}]}"""
+            """{"id":"user-1","aud":"authenticated","email":"ada@example.com","identities":[$identity]}"""
         val repository = AuthRepositoryImpl(testSupabaseClient { HttpStatusCode.OK to pendingUser })
         assertFalse(repository.signUp("ada@example.com", "secret"))
     }
@@ -73,7 +74,11 @@ class AuthRepositoryImplTest {
         val storage = FakeSecureStorage()
         val repository = AuthRepositoryImpl(
             testSupabaseClient(storage) { path ->
-                if (path.endsWith("logout")) HttpStatusCode.InternalServerError to "{}" else HttpStatusCode.OK to SESSION_JSON
+                if (path.endsWith("logout")) {
+                    HttpStatusCode.InternalServerError to "{}"
+                } else {
+                    HttpStatusCode.OK to SESSION_JSON
+                }
             }
         )
         repository.signIn("ada@example.com", "secret")
@@ -81,7 +86,10 @@ class AuthRepositoryImplTest {
         repository.signOut()
 
         // Cierre voluntario: no debe mostrarse como sesión caducada.
-        assertEquals(SessionState.Unauthenticated(expired = false), repository.sessionState.first { it is SessionState.Unauthenticated })
+        assertEquals(
+            SessionState.Unauthenticated(expired = false),
+            repository.sessionState.first { it is SessionState.Unauthenticated }
+        )
         assertNull(storage.getString(sessionKey))
     }
 

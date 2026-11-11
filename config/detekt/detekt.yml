@@ -1,0 +1,48 @@
+# Ajustes sobre la configuración por defecto de detekt (build.gradle.kts: buildUponDefaultConfig).
+# Solo se cambia lo que choca con Compose o con las convenciones del proyecto (ver CLAUDE.md).
+
+naming:
+  # Los composables se nombran en PascalCase.
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+  # Propiedad de respaldo de un StateFlow expuesta a subclases (`_baseUiState`).
+  VariableNaming:
+    variablePattern: '_?[a-z][A-Za-z0-9]*'
+  # Ficheros como `Theme.kt` agrupan una declaración con otro nombre (`AppTheme`).
+  MatchingDeclarationName:
+    active: false
+
+complexity:
+  # Una pantalla declara su árbol de UI en una sola función y recibe estado y callbacks por parámetro.
+  LongMethod:
+    ignoreAnnotated: ['Composable']
+  LongParameterList:
+    ignoreAnnotated: ['Composable']
+    ignoreDefaultParameters: true
+
+style:
+  MaxLineLength:
+    maxLineLength: 120
+  # Medidas en dp y similares dentro de composables y de las definiciones del tema.
+  MagicNumber:
+    ignoreAnnotated: ['Composable']
+    ignorePropertyDeclaration: true
+    excludes: ['**/commonTest/**', '**/ui/theme/**']
+  # Se usan a propósito para los recursos generados (`resources.*`) y las acciones de cada contrato.
+  WildcardImport:
+    active: false
+  # Los previews son privados y solo los usa el IDE.
+  UnusedPrivateMember:
+    ignoreAnnotated: ['Preview', 'PreviewLightDark']
+
+exceptions:
+  # `domainCall` captura Throwable para traducirlo a DomainError y lo relanza.
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: false
+
+performance:
+  # Necesario para pasar argumentos variables a `getString` y a las APIs de C de iOS.
+  SpreadOperator:
+    active: false

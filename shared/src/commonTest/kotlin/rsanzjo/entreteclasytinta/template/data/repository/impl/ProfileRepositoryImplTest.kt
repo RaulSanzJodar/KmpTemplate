@@ -22,10 +22,12 @@ class ProfileRepositoryImplTest {
 
     @Test
     fun getCurrentProfile_mapsTheProfilesRow() = runTest {
-        val repository = signedInRepository(
-            HttpStatusCode.OK to """[{"id":"user-1","name":"Ada","email":"ada@example.com","created_at":"2026-01-01"}]"""
+        val row = """{"id":"user-1","name":"Ada","email":"ada@example.com","created_at":"2026-01-01"}"""
+        val repository = signedInRepository(HttpStatusCode.OK to "[$row]")
+        assertEquals(
+            UserProfile(id = "user-1", name = "Ada", email = "ada@example.com"),
+            repository.getCurrentProfile()
         )
-        assertEquals(UserProfile(id = "user-1", name = "Ada", email = "ada@example.com"), repository.getCurrentProfile())
     }
 
     @Test
